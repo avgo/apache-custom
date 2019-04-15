@@ -67,6 +67,14 @@ test1() {
 
 	cp -vf "${script_dir}/index.pl" "${apache_prefix}/var/www/html"
 	chmod -v +x "${apache_prefix}/var/www/html/index.pl"
+
+	"${apache_prefix}/bin/apachectl" -f "${apache_prefix}/etc/httpd/conf/httpd.conf"
+
+	sleep 2; if test -f "${apache_pid_rp}"; then
+		echo "Apache server is running (pidfile exists)."
+	else
+		echo "Apache server is not running (pidfile not exists)."
+	fi
 }
 
 main "$@"
