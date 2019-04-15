@@ -63,7 +63,7 @@ test1() {
 		"${script_dir}/httpd.conf.in" > "${apache_prefix}/etc/httpd/conf/httpd.conf"
 
 	sed	-e "s@%INSTALL_TIME%@$(date +"%d.%m.%Y %T")@g" \
-		"${script_dir}/index.template.html" > "${apache_prefix}/var/www/html/index.html"
+		"${script_dir}/index.html" > "${apache_prefix}/var/www/html/index.html"
 
 	cp -vf "${script_dir}/index.pl" "${apache_prefix}/var/www/html"
 	chmod -v +x "${apache_prefix}/var/www/html/index.pl"
