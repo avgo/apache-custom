@@ -22,6 +22,20 @@ main() {
 }
 
 test1() {
+	local apache_pid_rp="${apache_prefix}/var/run/apache.pid"
+
+	if test -f "${apache_pid_rp}"; then
+		echo "Apache server is running."
+		echo "Stopping Apache server..."
+		echo "${apache_prefix}/bin/apachectl" -f "${apache_prefix}/etc/httpd/conf/httpd.conf" -k stop
+		"${apache_prefix}/bin/apachectl" -f "${apache_prefix}/etc/httpd/conf/httpd.conf" -k stop
+		sleep 2
+		if test -f "${apache_pid_rp}"; then
+			echo "error: can't stop Apache server, pidfile still exists." >&2
+			return 1
+		fi
+	fi
+
 	cd "${apache_distrib}" || return 1
 	make distclean
 	rm -rf "${apache_prefix}"
