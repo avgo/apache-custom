@@ -5,8 +5,9 @@ script_dir="$(dirname "${script_rp}")"  || exit 1
 
 # config_rp="${script_dir}/build.sh.conf"
 
+apache_distrib="$(realpath "${script_dir}/../httpd-2.4.37")"
 apache_port=8050
-apache_prefix="${script_dir}-root"
+apache_prefix="${apache_distrib}-root"
 
 load_config() {
 	source "$config_rp" || exit 1
@@ -21,7 +22,7 @@ main() {
 }
 
 test1() {
-	cd "${script_dir}" || return 1
+	cd "${apache_distrib}" || return 1
 	make distclean
 	rm -rf "${apache_prefix}"
 	./configure --prefix="${apache_prefix}" --enable-cgi &&
@@ -45,12 +46,13 @@ test1() {
 		-e "s@%APACHE_PID%@${apache_prefix}/var/run/apache.pid@g" \
 		-e "s@%APACHE_PORT%@${apache_port}@g" \
 		-e "s@%APACHE_SERVER_ROOT%@${apache_prefix}/etc/httpd@g" \
-		"httpd.conf.in" > "${apache_prefix}/etc/httpd/conf/httpd.conf"
+		"${script_dir}/httpd.conf.in" > "${apache_prefix}/etc/httpd/conf/httpd.conf"
 
 	sed	-e "s@%INSTALL_TIME%@$(date +"%d.%m.%Y %T")@g" \
-		"index.template.html" > "${apache_prefix}/var/www/html/index.html"
+		"${script_dir}/index.template.html" > "${apache_prefix}/var/www/html/index.html"
 
-	cp -vf "index.pl" "${apache_prefix}/var/www/html"
+	cp -vf "${script_dir}/index.pl" "${apache_prefix}/var/www/html"
+	chmod -v +x "${apache_prefix}/var/www/html/index.pl"
 }
 
 main "$@"
