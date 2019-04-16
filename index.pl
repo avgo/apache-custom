@@ -26,6 +26,9 @@ sub time_to_str {
 		$wdays[($wday+6)%7], $hour, $min, $sec);
 }
 
+binmode STDERR, ":utf8";
+binmode STDOUT, ":utf8";
+
 my $template = HTML::Template->new(
         filename           => dirname(Cwd::abs_path($0)) . "/index.template.html",
         die_on_bad_params  => 0,
