@@ -37,11 +37,19 @@ test1() {
 	fi
 
 	cd "${apache_distrib}" || return 1
-	make distclean
+
+	# make distclean
+
 	rm -rf "${apache_prefix}"
-	./configure --prefix="${apache_prefix}" --enable-cgi &&
-	make &&
-	make install
+
+	if ! test -f Makefile; then
+		./configure --prefix="${apache_prefix}" --enable-cgi ||
+				return 1
+	fi
+
+	if ! ( make && make install ); then
+		return 1
+	fi
 
 	# ServerRoot "%APACHE_SERVER_ROOT%"
 	# Listen %APACHE_PORT%
