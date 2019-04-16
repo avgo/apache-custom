@@ -12,6 +12,7 @@ Listen %APACHE_PORT%
 LoadModule authz_core_module    modules/mod_authz_core.so
 LoadModule cgi_module           modules/mod_cgi.so
 LoadModule dir_module           modules/mod_dir.so
+LoadModule env_module           modules/mod_env.so
 LoadModule mime_module          modules/mod_mime.so
 LoadModule unixd_module         modules/mod_unixd.so
 
@@ -20,6 +21,8 @@ PidFile %APACHE_PID%
 DocumentRoot %APACHE_DEBIAN%
 
 DirectoryIndex index.html
+
+setenv APACHE_REQUEST_LOGS_DIR "%APACHE_REQUEST_LOGS_DIR%"
 
 AddHandler cgi-script .cgi .pl
 

@@ -35,6 +35,8 @@ my $template = HTML::Template->new(
         utf8               => 1
 );
 
+print STDERR "error from index.pl\n";
+
 $template->param(time_now => time_to_str());
 
 print "Content-type: text/html\n\n", $template->output();

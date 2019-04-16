@@ -58,7 +58,7 @@ test1() {
 
 	local cf
 
-	mkdir -v "${apache_prefix}"/{etc{,/httpd{,/conf,/logs}},var{,/run,/www{,/html}}}
+	mkdir -v "${apache_prefix}"/{etc{,/httpd{,/conf,/logs}},var{,/log{,/apache_request_logs},/run,/www{,/html}}}
 
 	touch "${apache_prefix}/etc/httpd/mime.types"
 
@@ -66,6 +66,7 @@ test1() {
 
 	sed	-e "s@%APACHE_DEBIAN%@${apache_prefix}/var/www/html@g" \
 		-e "s@%APACHE_PID%@${apache_prefix}/var/run/apache.pid@g" \
+		-e "s@%APACHE_REQUEST_LOGS_DIR%@${apache_prefix}/var/log/apache_request_logs@g" \
 		-e "s@%APACHE_PORT%@${apache_port}@g" \
 		-e "s@%APACHE_SERVER_ROOT%@${apache_prefix}/etc/httpd@g" \
 		"${script_dir}/httpd.conf.in" > "${apache_prefix}/etc/httpd/conf/httpd.conf"
